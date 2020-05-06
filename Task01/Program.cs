@@ -45,19 +45,31 @@ namespace Task01
             try
             {
                 // Попробуйте осуществить считывание целочисленного массива, записав это ОДНИМ ВЫРАЖЕНИЕМ.
-                arr = 
+                arr = Console.ReadLine().Split(' ').Select(i => int.Parse(i)).ToArray();
             }
-            
+            catch (FormatException)
+            {
+                Console.WriteLine("FormatException");
+                return;
+            }
+
+            if (arr == null || arr.Length == 0)
+                throw new InvalidOperationException();
+
             // использовать синтаксис запросов!
-            IEnumerable<int> arrQuery = from 
+            IEnumerable<int> arrQuery = from item in arr where item % 2 == 0 || item < 0 select item;
 
             // использовать синтаксис методов!
-            IEnumerable<int> arrMethod = arr.
+            IEnumerable<int> arrMethod = arr.Where(i => i < 0 || i % 2 == 0);
 
             try
             {
                 PrintEnumerableCollection<int>(arrQuery, ":");
                 PrintEnumerableCollection<int>(arrMethod, "*");
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("InvalidOperationException");
             }
         }
 
@@ -65,8 +77,11 @@ namespace Task01
         // P.S. Есть два способа, оставьте тот, в котором применяется LINQ...
         public static void PrintEnumerableCollection<T>(IEnumerable<T> collection, string separator)
         {
-           
-           
+            if (!collection.Any())
+                throw new InvalidOperationException();
+            var aggregated = collection.Select<T, string>(i => i.ToString())
+                .Aggregate((s, arg2) => $"{s}{separator}{arg2}");
+            Console.WriteLine(aggregated);
         }
     }
 }
