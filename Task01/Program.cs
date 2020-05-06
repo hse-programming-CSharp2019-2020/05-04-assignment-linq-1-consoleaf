@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 /* В задаче не использовать циклы for, while. Все действия по обработке данных выполнять с использованием LINQ
@@ -45,7 +46,7 @@ namespace Task01
             try
             {
                 // Попробуйте осуществить считывание целочисленного массива, записав это ОДНИМ ВЫРАЖЕНИЕМ.
-                arr = Console.ReadLine().Split(' ').Select(i => int.Parse(i)).ToArray();
+                arr = Regex.Replace(Console.ReadLine(), @"\s+", " ").Split(' ').Select(i => int.Parse(i)).ToArray();
             }
             catch (FormatException)
             {
